@@ -10,8 +10,8 @@ exports.createQr = async(req,res,next)=>{
         for (let index = 0; index < req.body.quantity; index++) {
           const uid = new ShortUniqueId({ length: 4 });
           let data = {
-            url: "www.civan.com/login",
-            tag_id: uid(),
+            url: "https://civantechnologies.herokuapp.com/login",
+            tag_id: 'Civan'+uid(),
           };
     
           // Converting the data into String format
@@ -20,7 +20,7 @@ exports.createQr = async(req,res,next)=>{
           QRCode.toString(stringdata, { type: "terminal" }, async (err, QRcode) => {
             if (err) return console.log("error occurred",err);
     
-            const name = new Date().getTime();
+            const name = data.tag_id;
     
             QRCode.toFile("images/" + name + ".png", stringdata, {
               width: 500,
@@ -36,7 +36,7 @@ exports.createQr = async(req,res,next)=>{
           const code = await QRCode.toDataURL(stringdata);
           // console.log("code", code);
           const qrData = new Qr({
-            tag_id: uid(),
+            tag_id: data.tag_id,
             qr: code,
             tag_type: "VEHICLESOCIETY",
           });
