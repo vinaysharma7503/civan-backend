@@ -10,7 +10,7 @@ exports.createQr = async(req,res,next)=>{
         for (let index = 0; index < req.body.quantity; index++) {
           const uid = new ShortUniqueId({ length: 4 });
           let data = {
-            url: "https://civantechnologies.herokuapp.com/login",
+            url: "http://civan.org.in/login",
             tag_id: 'Civan'+uid(),
           };
     
