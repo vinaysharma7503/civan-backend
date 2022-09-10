@@ -22,7 +22,7 @@ exports.createQr = async(req,res,next)=>{
     
             const name = data.tag_id;
     
-            QRCode.toFile("images/" + name + ".png", stringdata, {
+            QRCode.toFile("images/" + name + ".png", data.url, {
               width: 500,
               color: {
                 dark: "#00F",
