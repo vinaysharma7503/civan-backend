@@ -10,14 +10,14 @@ exports.createQr = async(req,res,next)=>{
         for (let index = 0; index < req.body.quantity; index++) {
           const uid = new ShortUniqueId({ length: 4 });
           let data = {
-            url: "http://civan.org.in/login",
+            url: "http://civan.org.in",
             tag_id: 'Civan'+uid(),
           };
     
           // Converting the data into String format
-          let stringdata = JSON.stringify(data);
+          let stringdata = JSON.stringify(data.url);
           // Print the QR code to terminal
-          QRCode.toString(stringdata, { type: "terminal" }, async (err, QRcode) => {
+           QRCode.toString(stringdata, { type: "terminal" }, async (err, QRcode) => {
             if (err) return console.log("error occurred",err);
     
             const name = data.tag_id;
@@ -30,8 +30,9 @@ exports.createQr = async(req,res,next)=>{
               },
             });
             // Printing the generated code
-            // console.log(QRcode);
+            // console.log('imagePath',imagePath);
           });
+         
           // Converting the data into base64
           const code = await QRCode.toDataURL(stringdata);
           // console.log("code", code);
