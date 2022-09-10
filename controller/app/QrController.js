@@ -17,7 +17,7 @@ exports.createQr = async(req,res,next)=>{
           // Converting the data into String format
           let stringdata = JSON.stringify(data.url);
           // Print the QR code to terminal
-           QRCode.toString(stringdata, { type: "terminal" }, async (err, QRcode) => {
+           QRCode.toString(data.url, { type: "terminal" }, async (err, QRcode) => {
             if (err) return console.log("error occurred",err);
     
             const name = data.tag_id;
@@ -30,7 +30,7 @@ exports.createQr = async(req,res,next)=>{
               },
             });
             // Printing the generated code
-            // console.log('imagePath',imagePath);
+            console.log('imagePath',QRcode);
           });
          
           // Converting the data into base64
