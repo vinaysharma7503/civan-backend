@@ -34,7 +34,7 @@ exports.createQr = async(req,res,next)=>{
           });
          
           // Converting the data into base64
-          const code = await QRCode.toDataURL(stringdata);
+          const code = await QRCode.toDataURL(data.url);
           // console.log("code", code);
           const qrData = new Qr({
             tag_id: data.tag_id,
