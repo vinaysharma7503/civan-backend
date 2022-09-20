@@ -9,9 +9,10 @@ exports.createQr = async(req,res,next)=>{
         // Creating the data
         for (let index = 0; index < req.body.quantity; index++) {
           const uid = new ShortUniqueId({ length: 4 });
-          let tag_id= 'Civan'+uid()
+          // let tag_id= 'Civan'+uid()
           let data = {
-            url: `http://civan.org.in/tag-detail/${tag_id}`,
+            url: `http://civan.org.in`,
+            tag_id: 'Civan'+uid()
           };
     
           // Converting the data into String format
