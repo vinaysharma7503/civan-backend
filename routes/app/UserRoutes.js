@@ -13,7 +13,7 @@ function initilization() {
 initilization();
 
 function getRoutes() {
-    
+    UserRoutes.get('/get-user-profile',GlobalMiddlewares.authenticate,GlobalMiddlewares.ractifyError,UserController.getUserProfile)
 }
 
 function postRoutes() {

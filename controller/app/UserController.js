@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { environ } = require("../../environment/env");
+const Qr = require("../../model/Qr");
 const User = require("../../model/User");
 
 exports.userLogin = async (req, res) => {
@@ -14,9 +15,9 @@ exports.userLogin = async (req, res) => {
         environ().jwt_secret
       );
         user.password = null
-      res.send({ status: 200, message: "Login successfully", data: { user,token } });
+      res.status(200).send({ status: 200, message: "Login successfully", data: { user,token } });
     } else {
-      res.send({ status: 401, message: "Invalid email or password", data: {} });
+      res.status(401).send({ status: 401, message: "Invalid email or password", data: {} });
     }
   } catch (error) {
     next(error);
@@ -50,3 +51,27 @@ exports.userRegistration = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getUserProfile=async(req,res,next)=>{
+  try {
+    const options = {
+      page: 1,
+      populate:{path:'user_id'},
+      limit: 10,
+      collation: {
+        locale: 'en',
+      },
+    };
+    const user_id = req.userData._id
+    const user = await User.findOne({_id:user_id}).lean();
+    delete user.password
+    const query={
+      user_id:user_id
+    }
+    const qrData = await Qr.paginate(query,options);
+    console.log('qrData',qrData);
+    res.send({status:200,message:'User profile.',data:{user,qrData}})
+  } catch (error) {
+    next(error)
+  }
+}

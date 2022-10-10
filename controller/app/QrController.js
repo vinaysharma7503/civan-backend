@@ -9,10 +9,10 @@ exports.createQr = async(req,res,next)=>{
         // Creating the data
         for (let index = 0; index < req.body.quantity; index++) {
           const uid = new ShortUniqueId({ length: 4 });
-          // let tag_id= 'Civan'+uid()
+          let tag_id= 'Civan'+uid()
           let data = {
-            url: `http://civan.org.in`,
-            tag_id: 'Civan'+uid()
+            url: `http://civan.org.in/tag-detail/${tag_id}`,
+            // tag_id: 'Civan'+uid()
           };
     
           // Converting the data into String format
@@ -21,13 +21,13 @@ exports.createQr = async(req,res,next)=>{
            QRCode.toString(data.url, { type: "terminal" }, async (err, QRcode) => {
             if (err) return console.log("error occurred",err);
     
-            const name = data.tag_id;
+            const name = tag_id;
     
             QRCode.toFile("images/" + name + ".png", data.url, {
               width: 500,
               color: {
-                dark: "#00F",
-                light: "#0000",
+                dark: "#0000",
+                light: "#ffffff",
               },
             });
             // Printing the generated code
@@ -38,7 +38,7 @@ exports.createQr = async(req,res,next)=>{
           const code = await QRCode.toDataURL(data.url);
           // console.log("code", code);
           const qrData = new Qr({
-            tag_id: data.tag_id,
+            tag_id: tag_id,
             qr: code,
             tag_type: "VEHICLESOCIETY",
           });

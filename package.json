@@ -22,6 +22,7 @@
     "formidable": "^2.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
+    "mongoose-paginate-v2": "^1.7.1",
     "nodemon": "^2.0.19",
     "qrcode": "^1.5.1",
     "short-unique-id": "^4.4.4"
