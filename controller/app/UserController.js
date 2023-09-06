@@ -3,8 +3,9 @@ const jwt = require("jsonwebtoken");
 const { environ } = require("../../environment/env");
 const Qr = require("../../model/Qr");
 const User = require("../../model/User");
+const mongoose = require('mongoose')
 
-exports.userLogin = async (req, res) => {
+exports.userLogin = async (req, res,next) => {
   try {
     const data = req.body;
     const user = req.userData;
@@ -56,7 +57,6 @@ exports.getUserProfile=async(req,res,next)=>{
   try {
     const options = {
       page: 1,
-      populate:{path:'user_id'},
       limit: 10,
       collation: {
         locale: 'en',
@@ -65,11 +65,27 @@ exports.getUserProfile=async(req,res,next)=>{
     const user_id = req.userData._id
     const user = await User.findOne({_id:user_id}).lean();
     delete user.password
-    const query={
-      user_id:user_id
-    }
-    const qrData = await Qr.paginate(query,options);
-    console.log('qrData',qrData);
+    const query=[
+      {
+        '$match': {
+          'user_id': new mongoose.Types.ObjectId(req.userData._id)
+        }
+      }, {
+        '$lookup': {
+          'from': 'users', 
+          'localField': 'user_id', 
+          'foreignField': '_id', 
+          'as': 'user_id'
+        }
+      }, {
+        '$unwind': {
+          'path': '$user_id', 
+          'preserveNullAndEmptyArrays': true
+        }
+      }
+    ]
+    let queryAggregate = Qr.aggregate(query);
+        let qrData = await Qr.aggregatePaginate(queryAggregate,options)
     res.send({status:200,message:'User profile.',data:{user,qrData}})
   } catch (error) {
     next(error)

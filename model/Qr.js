@@ -1,5 +1,5 @@
 const Mongoose = require("mongoose");
-const mongoosePaginate = require('mongoose-paginate-v2');
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2')
 
 const qrSchema = new Mongoose.Schema({
     tag_id: {
@@ -27,5 +27,5 @@ const qrSchema = new Mongoose.Schema({
 
 });
 
-qrSchema.plugin(mongoosePaginate)
+qrSchema.plugin(aggregatePaginate)
 module.exports = Mongoose.model('QR', qrSchema);

@@ -16,7 +16,7 @@ function getRoutes() {
 
 function postRoutes() {
     ContactRoutes.post('/create-contact',GlobalMiddlewares.authenticate,GlobalMiddlewares.ractifyError,ContactController.contact)
-    ContactRoutes.post('/send-sms',GlobalMiddlewares.ractifyError,ContactController.sms)
+    // ContactRoutes.post('/send-sms',GlobalMiddlewares.ractifyError,ContactController.sms)
 }
 
 function putRoutes() {

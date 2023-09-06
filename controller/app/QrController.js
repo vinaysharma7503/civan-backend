@@ -73,9 +73,7 @@ exports.checkQRRegistered = async (req, res, next) => {
           data: qr,
         });
       } else {
-        const qrData = await Qr.findOne({ tag_id: req.body.tag_id }).populate(
-          "user_id"
-        );
+        const qrData = await Qr.findOne({ tag_id: req.body.tag_id }).populate('user_id')
         res.status(200).send({
           status: 200,
           message: "This tag is registered.",
